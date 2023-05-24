@@ -42,9 +42,6 @@ jobs:
           publish_dir: ./
         env:
           PAGE_URL: ${{ steps.deployment.outputs.page_url }}
-          run: |
-            echo "PAGE_URL: $PAGE_URL"
-          
 
   # Define a separate job to create the environment and reference the page_url output
   create_environment:
@@ -52,7 +49,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create environment
+        env:
+          PAGE_URL: ${{ needs.deploy.outputs.deployment.env.PAGE_URL }}
         run: |
           # Create the environment using the PAGE_URL environment variable
           echo "Creating environment with PAGE_URL: $PAGE_URL"
+
 
